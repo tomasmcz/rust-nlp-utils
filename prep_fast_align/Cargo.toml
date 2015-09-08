@@ -1,0 +1,4 @@
+[package]
+name = "prep_fast_align"
+version = "0.1.0"
+authors = ["Tomáš Musil <tomik.musil@gmail.com>"]
