@@ -1,7 +1,6 @@
 use std::env;
 use std::io::prelude::*;
 use std::io::BufReader;
-use std::io::{Error, ErrorKind};
 use std::fs::File;
 
 fn main() {
@@ -22,14 +21,8 @@ fn work() -> std::io::Result<()> {
     let f2 = try!(File::open(filename2));
     let s1 = BufReader::new(f1);
     let s2 = BufReader::new(f2);
-    let mut l2 = s2.lines();
-    for l in s1.lines() {
-        print!("{} ||| ", try!(l));
-        println!("{}", try!(match l2.next() {
-            Some(val) => val,
-            None => return Err(Error::new(ErrorKind::Other, "second file is shorter."))
-            })
-        );
+    for (l1, l2) in s1.lines().zip(s2.lines()) { 
+        println!("{} ||| {}", try!(l1), try!(l2));
     }
     Ok(())
 }
