@@ -1,12 +1,16 @@
 use std::env;
 use std::io::prelude::*;
 use std::io::BufReader;
+use std::io::{Error, ErrorKind};
 use std::fs::File;
 
 fn main() {
     match work() {
         Ok(()) => (),
-        Err(e) => println!("Error: {}", e)
+        Err(e) => {
+            println!("\nError: {}", e);
+            std::process::exit(1);
+        }
     }
 }
 
@@ -23,7 +27,7 @@ fn work() -> std::io::Result<()> {
         print!("{} ||| ", try!(l));
         println!("{}", try!(match l2.next() {
             Some(val) => val,
-            None => unimplemented!()
+            None => return Err(Error::new(ErrorKind::Other, "second file is shorter."))
             })
         );
     }
